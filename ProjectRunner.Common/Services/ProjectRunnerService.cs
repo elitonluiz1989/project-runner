@@ -2,6 +2,7 @@
 using ProjectRunner.Common.Dto;
 using ProjectRunner.Common.Entities;
 using ProjectRunner.Common.Validators;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -29,17 +30,34 @@ namespace ProjectRunner.Common.Services
 
         public static void Update(int index, ProjectRunnerDto dto)
         {
-            if (dto.Project != null)
+            if (_runners[index].IsRunning)
             {
-                dto.Process = CreateProcess(dto);
-                CreateDataReceivedHandlers(dto);
-                _runners[index] = dto;
+                throw new Exception(Resources.Strings.DenyActionWhenProjectRunning);
             }
+
+            dto.Process = CreateProcess(dto);
+            CreateDataReceivedHandlers(dto);
+            _runners[index] = dto;
         }
 
         public static ProjectRunnerDto Get(int index)
         {
             return _runners[index];
+        }
+
+        public static ProjectRunnerDto Get(Predicate<ProjectRunnerDto> condition)
+        {
+            return _runners.Find(condition);
+        }
+
+        public static bool IsRunning(int projectId)
+        {
+            ProjectRunnerDto runner = Get(dto => dto.Project.Id == projectId);
+
+            if (runner == null)
+                return false;
+
+            return runner.IsRunning;
         }
 
         public static Task Run(int index)

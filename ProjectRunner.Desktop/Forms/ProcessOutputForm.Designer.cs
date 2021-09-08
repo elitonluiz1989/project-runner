@@ -1,7 +1,7 @@
 ﻿
 namespace ProjectRunner.Desktop.Forms
 {
-    partial class TerminalForm
+    partial class ProcessOutputForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@ namespace ProjectRunner.Desktop.Forms
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TerminalForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProcessOutputForm));
             this.lblOutput = new System.Windows.Forms.Label();
             this.PnlOutput = new System.Windows.Forms.Panel();
             this.PnlOutput.SuspendLayout();
@@ -55,16 +55,16 @@ namespace ProjectRunner.Desktop.Forms
             this.PnlOutput.Size = new System.Drawing.Size(772, 521);
             this.PnlOutput.TabIndex = 1;
             // 
-            // TerminalForm
+            // ProcessOutputForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(15F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(772, 521);
             this.Controls.Add(this.PnlOutput);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "TerminalForm";
+            this.Name = "ProcessOutputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Terminal";
+            this.Text = "Process Output";
             this.PnlOutput.ResumeLayout(false);
             this.PnlOutput.PerformLayout();
             this.ResumeLayout(false);

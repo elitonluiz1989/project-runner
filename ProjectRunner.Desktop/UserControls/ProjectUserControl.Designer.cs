@@ -35,7 +35,7 @@ namespace ProjectRunner.Desktop.UserControls
             this.MSManageItems = new System.Windows.Forms.ToolStripMenuItem();
             this.MSManageEditItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MSManageRemoveItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.MSManageShowLog = new System.Windows.Forms.ToolStripMenuItem();
+            this.MSManageOutput = new System.Windows.Forms.ToolStripMenuItem();
             this.PnlDescription = new System.Windows.Forms.Panel();
             this.LblProject = new System.Windows.Forms.Label();
             this.PnlButtons.SuspendLayout();
@@ -85,7 +85,7 @@ namespace ProjectRunner.Desktop.UserControls
             this.MSManageItems.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.MSManageEditItem,
             this.MSManageRemoveItem,
-            this.MSManageShowLog});
+            this.MSManageOutput});
             this.MSManageItems.Name = "MSManageItems";
             this.MSManageItems.Padding = new System.Windows.Forms.Padding(0);
             this.MSManageItems.Size = new System.Drawing.Size(118, 49);
@@ -105,12 +105,13 @@ namespace ProjectRunner.Desktop.UserControls
             this.MSManageRemoveItem.Text = "Remove";
             this.MSManageRemoveItem.Click += new System.EventHandler(this.MSManageRemoveItem_Click);
             // 
-            // MSManageShowLog
+            // MSManageOutput
             // 
-            this.MSManageShowLog.Name = "MSManageShowLog";
-            this.MSManageShowLog.Size = new System.Drawing.Size(403, 48);
-            this.MSManageShowLog.Text = "Log";
-            this.MSManageShowLog.Click += new System.EventHandler(this.MSManageShowLog_Click);
+            this.MSManageOutput.Enabled = false;
+            this.MSManageOutput.Name = "MSManageOutput";
+            this.MSManageOutput.Size = new System.Drawing.Size(403, 48);
+            this.MSManageOutput.Text = "Process output";
+            this.MSManageOutput.Click += new System.EventHandler(this.MSManageOutput_Click);
             // 
             // PnlDescription
             // 
@@ -165,6 +166,6 @@ namespace ProjectRunner.Desktop.UserControls
         private System.Windows.Forms.ToolStripMenuItem MSManageItems;
         private System.Windows.Forms.ToolStripMenuItem MSManageEditItem;
         private System.Windows.Forms.ToolStripMenuItem MSManageRemoveItem;
-        private System.Windows.Forms.ToolStripMenuItem MSManageShowLog;
+        private System.Windows.Forms.ToolStripMenuItem MSManageOutput;
     }
 }
