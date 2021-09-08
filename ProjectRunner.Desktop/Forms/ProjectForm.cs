@@ -51,6 +51,10 @@ namespace ProjectRunner.Desktop.Forms
             {
                 LoadProject(project);
             }
+            else
+            {
+                Project = new();
+            }
         }
 
         private void BtnFileBrowseDialog_Click(object sender, EventArgs e)
@@ -65,22 +69,33 @@ namespace ProjectRunner.Desktop.Forms
 
         private void BtnSave_Click(object sender, EventArgs e)
         {
-            if (Project == null || Project.Id == 0)
-            {
-                Project = new Project();
-            }
-
-            Project.Name = TbName.Text.Trim();
-            Project.Path = TbPath.Text.Trim();
-            Project.ExecutableId = Convert.ToInt32(CbExecutable.SelectedValue);
-            Project.ExecutableArguments = TbExecutableArgs.Text.Trim();
-
             try
             {
+                if (Project.Id > 0)
+                {
+                    bool isRunning = ProjectRunnerService.IsRunning(Project.Id);
+
+                    if (isRunning)
+                    {
+                        throw new Exception(Resources.Strings.DenyActionWhenProjectRunning);
+                    }
+                }
+
+                Project.Name = TbName.Text.Trim();
+                Project.Path = TbPath.Text.Trim();
+                Project.ExecutableId = Convert.ToInt32(CbExecutable.SelectedValue);
+                Project.ExecutableArguments = TbExecutableArgs.Text.Trim();
                 _service.Save<ProjectValidator>(Project);
-                MessageBox.Show(Resources.Strings.ProjectSaveSuccess);
                 Project = _service.Find(Project.Id, project => project.Include(p => p.Executable));
-                OnProjectSaved(Project);
+
+                if (Project == null)
+                {
+                    throw new Exception(Resources.Strings.ProjectSaveError);
+                }
+
+                MessageBox.Show(Resources.Strings.ProjectSaveSuccess);                
+                
+                OnProjectSaved(Project);                
                 Close();
             } catch (Exception ex)
             {

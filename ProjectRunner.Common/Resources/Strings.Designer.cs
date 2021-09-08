@@ -61,6 +61,15 @@ namespace ProjectRunner.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This action cannot be performed during project execution..
+        /// </summary>
+        internal static string DenyActionWhenProjectRunning {
+            get {
+                return ResourceManager.GetString("DenyActionWhenProjectRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Executable.
         /// </summary>
         internal static string Executable {

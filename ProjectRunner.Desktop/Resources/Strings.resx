@@ -126,6 +126,9 @@
   <data name="CloseToStray" xml:space="preserve">
     <value>Close to stray</value>
   </data>
+  <data name="DenyActionWhenProjectRunning" xml:space="preserve">
+    <value>This action cannot be performed during project execution.</value>
+  </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
@@ -159,9 +162,6 @@
   <data name="Insert" xml:space="preserve">
     <value>Insert</value>
   </data>
-  <data name="Log" xml:space="preserve">
-    <value>Log</value>
-  </data>
   <data name="Manage" xml:space="preserve">
     <value>Manage</value>
   </data>
@@ -177,6 +177,9 @@
   <data name="Path" xml:space="preserve">
     <value>Path</value>
   </data>
+  <data name="ProcessOutput" xml:space="preserve">
+    <value>Process Output</value>
+  </data>
   <data name="Project" xml:space="preserve">
     <value>Project</value>
   </data>
@@ -191,6 +194,9 @@
   </data>
   <data name="Projects" xml:space="preserve">
     <value>Projects</value>
+  </data>
+  <data name="ProjectSaveError" xml:space="preserve">
+    <value>Project was not saved.</value>
   </data>
   <data name="ProjectSaveSuccess" xml:space="preserve">
     <value>Project was saved.</value>

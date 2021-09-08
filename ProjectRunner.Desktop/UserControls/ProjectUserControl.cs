@@ -19,7 +19,7 @@ namespace ProjectRunner.Desktop.UserControls
         public RemoveActionEvent<ProjectUserControl> RemoveActionEvent { get; set; }
         private Project _project;
         private IProcessOutputService _processOutputService;
-        private int _proccesIndex;
+        private int _projectIndex;
         private bool _isRunning;
 
         public ProjectUserControl(Project project)
@@ -28,18 +28,24 @@ namespace ProjectRunner.Desktop.UserControls
 
             BaseRepositoryService<Project> service = new(new BaseRepository<Project>(new SQLiteContext()));
             ProjectRunnerService.SetRepositoryService(service);
-            _processOutputService = new TerminalOutputService();
+            _processOutputService = new ProcessOutputService();
             SetProject(project);
             MSManageItems.Text = Resources.Strings.Manage;
             MSManageEditItem.Text = Resources.Strings.Edit;
             MSManageRemoveItem.Text = Resources.Strings.Remove;
-            MSManageShowLog.Text = Resources.Strings.Log;
+            MSManageOutput.Text = Resources.Strings.ProcessOutput;
         }
 
         #region Menu Actions Events
 
         private void MSManageEditItem_Click(object sender, EventArgs e)
         {
+            if (_isRunning)
+            {
+                MessageBox.Show(Resources.Strings.DenyActionWhenProjectRunning);
+                return;
+            }
+
             ProjectForm projectForm = new(_project) { StartPosition = FormStartPosition.CenterParent };
             projectForm.OnProjectSaved = (Project project) => EditActionEvent(this, project);
             projectForm.ShowDialog();
@@ -47,6 +53,12 @@ namespace ProjectRunner.Desktop.UserControls
 
         private void MSManageRemoveItem_Click(object sender, EventArgs e)
         {
+            if (_isRunning)
+            {
+                MessageBox.Show(Resources.Strings.DenyActionWhenProjectRunning);
+                return;
+            }
+
             DialogResult dialogResult = MessageBox.Show(Resources.Strings.ProjectRemoveQuestion, Resources.Strings.ProjectRemove, MessageBoxButtons.YesNo);
 
             if (dialogResult == DialogResult.Yes)
@@ -66,7 +78,7 @@ namespace ProjectRunner.Desktop.UserControls
             }
         }
 
-        private void MSManageShowLog_Click(object sender, EventArgs e)
+        private void MSManageOutput_Click(object sender, EventArgs e)
         {
             _processOutputService.Show();
         }
@@ -79,17 +91,17 @@ namespace ProjectRunner.Desktop.UserControls
             {
                 if (_isRunning)
                 {
-                    ProjectRunnerService.Stop(_proccesIndex);
+                    ProjectRunnerService.Stop(_projectIndex);
                     _isRunning = false;
                 }
                 else
                 {
                     _isRunning = true;
-                    SetActionButtonText();
+                    ManageControlsForRunningProject();
 
-                    await ProjectRunnerService.Run(_proccesIndex)
+                    await ProjectRunnerService.Run(_projectIndex)
                         .ContinueWith(t => {
-                            ProjectRunnerService.Stop(_proccesIndex);
+                            ProjectRunnerService.Stop(_projectIndex);
                             _isRunning = false;
                         });
                 }
@@ -100,29 +112,33 @@ namespace ProjectRunner.Desktop.UserControls
                 MessageBox.Show(Utils.HandleExceptionMessage(ex));
             }
 
-            SetActionButtonText();
+            ManageControlsForRunningProject();
         }
 
         public void SetProject(Project project)
         {
-            _project = project;
-            LblProject.Text = _project.Name;
-            ProjectRunnerDto dto = new()
+            if (_isRunning)
             {
-                Project = _project,
-                ProcessOutputService = _processOutputService
-            };
+                MessageBox.Show(Resources.Strings.DenyActionWhenProjectRunning);
+                return;
+            }
 
-            if (_proccesIndex == 0)
+            ProjectRunnerDto dto = ProjectAlreadyCreated() ? ProjectRunnerService.Get(_projectIndex) : new();
+
+            _project = project;
+            dto.Project = _project;
+            LblProject.Text = _project.Name;
+
+            if (ProjectAlreadyCreated())
             {
-                _proccesIndex = ProjectRunnerService.Create(dto);
+                ProjectRunnerService.Update(_projectIndex, dto);
             }
             else
             {
-                ProjectRunnerService.Update(_proccesIndex, dto);
+                dto.ProcessOutputService = _processOutputService;
+                _projectIndex = ProjectRunnerService.Create(dto);
+                SetTerminalOutput();
             }
-
-            SetTerminalOutput();
         }
 
         private void SetActionButtonText()
@@ -130,11 +146,28 @@ namespace ProjectRunner.Desktop.UserControls
             BtnAction.Text = _isRunning ? Resources.Strings.Stop : Resources.Strings.Run;
         }
 
-        private void SetTerminalOutput()
+        private void EnableManagementActions(bool enable = true)
         {
-            _processOutputService.SetBeginOutputHandler(ProjectRunnerService.BeginOutputReadLine, _proccesIndex);
-            _processOutputService.SetCancelOutputHandler(ProjectRunnerService.CancelOutputRead, _proccesIndex);
+            MSManageEditItem.Enabled = enable;
+            MSManageRemoveItem.Enabled = enable;
+            MSManageOutput.Enabled = !enable;
         }
 
+        private void ManageControlsForRunningProject()
+        {
+            SetActionButtonText();
+            EnableManagementActions(!_isRunning);
+        }
+
+        private void SetTerminalOutput()
+        {
+            _processOutputService.SetBeginOutputHandler(ProjectRunnerService.BeginOutputReadLine, _projectIndex);
+            _processOutputService.SetCancelOutputHandler(ProjectRunnerService.CancelOutputRead, _projectIndex);
+        }
+
+        private bool ProjectAlreadyCreated()
+        {
+            return _projectIndex > 0;
+        }
     }
 }

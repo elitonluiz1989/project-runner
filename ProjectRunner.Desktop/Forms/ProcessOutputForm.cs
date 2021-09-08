@@ -6,16 +6,16 @@ namespace ProjectRunner.Desktop.Forms
     public delegate void OnShowTerminal(EventArgs e);
     public delegate void OnCloseTerminal(FormClosingEventArgs e);
 
-    public partial class TerminalForm : Form
+    public partial class ProcessOutputForm : Form
     {
         public OnShowTerminal OnShowTerminal { get; set; }
         public OnCloseTerminal OnCloseTerminal { get; set; }
         private string _message;
 
-        public TerminalForm()
+        public ProcessOutputForm()
         {
             InitializeComponent();
-            CreateHandle();
+            Text = Resources.Strings.ProcessOutput;
         }
 
         protected override void OnShown(EventArgs e)

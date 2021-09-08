@@ -88,6 +88,15 @@ namespace ProjectRunner.Desktop.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This action cannot be performed during project execution..
+        /// </summary>
+        internal static string DenyActionWhenProjectRunning {
+            get {
+                return ResourceManager.GetString("DenyActionWhenProjectRunning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         internal static string Edit {
@@ -187,15 +196,6 @@ namespace ProjectRunner.Desktop.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Log.
-        /// </summary>
-        internal static string Log {
-            get {
-                return ResourceManager.GetString("Log", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         internal static string Manage {
@@ -241,6 +241,15 @@ namespace ProjectRunner.Desktop.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Process Output.
+        /// </summary>
+        internal static string ProcessOutput {
+            get {
+                return ResourceManager.GetString("ProcessOutput", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project.
         /// </summary>
         internal static string Project {
@@ -282,6 +291,15 @@ namespace ProjectRunner.Desktop.Resources {
         internal static string Projects {
             get {
                 return ResourceManager.GetString("Projects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project was not saved..
+        /// </summary>
+        internal static string ProjectSaveError {
+            get {
+                return ResourceManager.GetString("ProjectSaveError", resourceCulture);
             }
         }
         

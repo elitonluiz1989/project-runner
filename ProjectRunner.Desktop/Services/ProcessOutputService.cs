@@ -6,12 +6,12 @@ using System.Windows.Forms;
 
 namespace ProjectRunner.Desktop.Services
 {
-    public class TerminalOutputService : IProcessOutputService
+    public class ProcessOutputService : IProcessOutputService
     {
-        private readonly TerminalForm _teminalForm;
+        private readonly ProcessOutputForm _teminalForm;
         private delegate void TerminalOutputDelegate(string message = null);
 
-        public TerminalOutputService()
+        public ProcessOutputService()
         {
             _teminalForm = new();
         }
