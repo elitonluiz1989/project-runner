@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ProjectRunner.Common.Interfaces
+namespace ProjectRunner.Common.Contracts
 {
     public interface IRepository<Entity> where Entity : BaseEntity
     {

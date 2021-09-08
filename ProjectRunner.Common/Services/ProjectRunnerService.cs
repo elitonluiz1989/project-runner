@@ -1,6 +1,6 @@
-﻿using ProjectRunner.Common.Dto;
+﻿using ProjectRunner.Common.Contracts;
+using ProjectRunner.Common.Dto;
 using ProjectRunner.Common.Entities;
-using ProjectRunner.Common.Interfaces;
 using ProjectRunner.Common.Validators;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -18,24 +18,11 @@ namespace ProjectRunner.Common.Services
         {
             if (dto.Project.ProcessId != null && ProcessExists(dto.Project.ProcessId.Value))
             {
-                dto.Process = Process.GetProcessById(dto.Project.ProcessId.Value);
-                dto.IsRunning = true;
-
-                int index = GetRunnerIndex(dto);
-
-                if (index == -1)
-                {
-                    _runners.Add(dto);
-                }
-                else
-                {
-                    _runners[index] = dto;
-                }
+                Process process = Process.GetProcessById(dto.Project.ProcessId.Value);
+                DestroyProcess(process);
             }
-            else
-            {
-                CreateRunnerProcess(dto);
-            }
+
+            CreateRunnerProcess(dto);
 
             return GetRunnerIndex(dto);
         }
@@ -45,6 +32,7 @@ namespace ProjectRunner.Common.Services
             if (dto.Project != null)
             {
                 dto.Process = CreateProcess(dto);
+                CreateDataReceivedHandlers(dto);
                 _runners[index] = dto;
             }
         }
@@ -74,13 +62,24 @@ namespace ProjectRunner.Common.Services
 
         public static void Stop(int index)
         {
-            _runners[index].Process.Kill();
-            _runners[index].Process.Close();
-            _runners[index].Process.Dispose();
+            DestroyProcess(_runners[index].Process);
+
             _runners[index].Process = null;
             _runners[index].IsRunning = false;
 
             UpdateProcessId(index);
+        }
+
+        public static void BeginOutputReadLine(int index)
+        {
+            _runners[index].Process.BeginOutputReadLine();
+            _runners[index].Process.BeginErrorReadLine();
+        }
+
+        public static void CancelOutputRead(int index)
+        {
+            _runners[index].Process.CancelOutputRead();
+            _runners[index].Process.CancelErrorRead();
         }
 
         public static void SetRepositoryService(IRepositoryService<Project> repository)
@@ -115,9 +114,16 @@ namespace ProjectRunner.Common.Services
             return process;
         }
 
+        private static void CreateDataReceivedHandlers(ProjectRunnerDto dto)
+        {
+            dto.Process.OutputDataReceived += new DataReceivedEventHandler(dto.ProcessOutputService.Add);
+            dto.Process.ErrorDataReceived += new DataReceivedEventHandler(dto.ProcessOutputService.Add);
+        }
+
         private static void CreateRunnerProcess(ProjectRunnerDto dto)
         {
             dto.Process = CreateProcess(dto);
+            CreateDataReceivedHandlers(dto);
             _runners.Add(dto);
         }
 
@@ -133,6 +139,13 @@ namespace ProjectRunner.Common.Services
                 _runners[index].Project.ProcessId = processId;
                 _repository.Save<ProjectValidator>(_runners[index].Project);
             }
+        }
+
+        private static void DestroyProcess(Process process)
+        {
+            process.Kill();
+            process.Close();
+            process.Dispose();
         }
     }
 }

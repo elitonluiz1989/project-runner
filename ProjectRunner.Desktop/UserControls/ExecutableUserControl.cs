@@ -1,5 +1,5 @@
-﻿using ProjectRunner.Common.Entities;
-using ProjectRunner.Common.Interfaces;
+﻿using ProjectRunner.Common.Contracts;
+using ProjectRunner.Common.Entities;
 using ProjectRunner.Common.Services;
 using ProjectRunner.Common.Tools;
 using ProjectRunner.Desktop.Contracts;
@@ -13,10 +13,10 @@ namespace ProjectRunner.Desktop.UserControls
 {
     public partial class ExecutableUserControl : UserControl
     {
-        public EditActionEvent<ExecutableUserControl, Executable> EditActionEvent;
-        public RemoveActionEvent<ExecutableUserControl> RemoveActionEvent;
+        public EditActionEvent<ExecutableUserControl, Executable> EditActionEvent { get; set; }
+        public RemoveActionEvent<ExecutableUserControl> RemoveActionEvent { get; set; }
         public Executable Executable { get; private set; }
-        protected IRepositoryService<Executable> _service;
+        private IRepositoryService<Executable> _service;
 
         public ExecutableUserControl(Executable executable)
         {

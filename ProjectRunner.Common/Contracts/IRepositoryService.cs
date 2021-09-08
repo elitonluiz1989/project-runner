@@ -3,9 +3,8 @@ using ProjectRunner.Common.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 
-namespace ProjectRunner.Common.Interfaces
+namespace ProjectRunner.Common.Contracts
 {
     public interface IRepositoryService<Entity> where Entity : BaseEntity
     {
