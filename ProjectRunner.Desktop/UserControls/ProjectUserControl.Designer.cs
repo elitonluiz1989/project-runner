@@ -59,7 +59,7 @@ namespace ProjectRunner.Desktop.UserControls
             // 
             this.BtnAction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.BtnAction.Location = new System.Drawing.Point(30, 27);
-            this.BtnAction.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BtnAction.Margin = new System.Windows.Forms.Padding(4);
             this.BtnAction.Name = "BtnAction";
             this.BtnAction.Size = new System.Drawing.Size(125, 49);
             this.BtnAction.TabIndex = 0;
@@ -110,7 +110,6 @@ namespace ProjectRunner.Desktop.UserControls
             this.MSManageShowLog.Name = "MSManageShowLog";
             this.MSManageShowLog.Size = new System.Drawing.Size(403, 48);
             this.MSManageShowLog.Text = "Log";
-            this.MSManageShowLog.Visible = false;
             this.MSManageShowLog.Click += new System.EventHandler(this.MSManageShowLog_Click);
             // 
             // PnlDescription

@@ -1,8 +1,11 @@
-﻿using ProjectRunner.Common.Dto;
-using ProjectRunner.Common.Tools;
+﻿using ProjectRunner.Common.Contracts;
+using ProjectRunner.Common.Dto;
 using ProjectRunner.Common.Entities;
 using ProjectRunner.Common.Services;
+using ProjectRunner.Common.Tools;
+using ProjectRunner.Desktop.Contracts;
 using ProjectRunner.Desktop.Forms;
+using ProjectRunner.Desktop.Services;
 using ProjectRunner.Infra.Data.Context;
 using ProjectRunner.Infra.Data.Repository;
 using System;
@@ -10,14 +13,12 @@ using System.Windows.Forms;
 
 namespace ProjectRunner.Desktop.UserControls
 {
-    public delegate void EditActionEvent(ProjectUserControl sender, Project project);
-    public delegate void RemoveActionEvent(ProjectUserControl sender);
-
     public partial class ProjectUserControl : UserControl
     {
-        public EditActionEvent EditActionEvent;
-        public RemoveActionEvent RemoveActionEvent;
+        public EditActionEvent<ProjectUserControl, Project> EditActionEvent { get; set; }
+        public RemoveActionEvent<ProjectUserControl> RemoveActionEvent { get; set; }
         private Project _project;
+        private IProcessOutputService _processOutputService;
         private int _proccesIndex;
         private bool _isRunning;
 
@@ -25,31 +26,17 @@ namespace ProjectRunner.Desktop.UserControls
         {
             InitializeComponent();
 
-            BaseRepositoryService<Project> service = new BaseRepositoryService<Project>(new BaseRepository<Project>(new SQLiteContext()));
+            BaseRepositoryService<Project> service = new(new BaseRepository<Project>(new SQLiteContext()));
             ProjectRunnerService.SetRepositoryService(service);
+            _processOutputService = new TerminalOutputService();
             SetProject(project);
-            ValidateProccessRunnig();
-            SetActionButtonText();
             MSManageItems.Text = Resources.Strings.Manage;
             MSManageEditItem.Text = Resources.Strings.Edit;
             MSManageRemoveItem.Text = Resources.Strings.Remove;
             MSManageShowLog.Text = Resources.Strings.Log;
         }
 
-        public void SetProject(Project project)
-        {
-            _project = project;
-            LblProject.Text = _project.Name;
-
-            if (_proccesIndex == 0)
-            {
-                _proccesIndex = ProjectRunnerService.Create(new ProjectRunnerDto { Project = project });
-            }
-            else
-            {
-                ProjectRunnerService.Update(_proccesIndex, new ProjectRunnerDto { Project = project });
-            }
-        }
+        #region Menu Actions Events
 
         private void MSManageEditItem_Click(object sender, EventArgs e)
         {
@@ -81,7 +68,10 @@ namespace ProjectRunner.Desktop.UserControls
 
         private void MSManageShowLog_Click(object sender, EventArgs e)
         {
+            _processOutputService.Show();
         }
+
+        #endregion
 
         private async void BtnAction_Click(object sender, EventArgs e)
         {
@@ -113,19 +103,37 @@ namespace ProjectRunner.Desktop.UserControls
             SetActionButtonText();
         }
 
+        public void SetProject(Project project)
+        {
+            _project = project;
+            LblProject.Text = _project.Name;
+            ProjectRunnerDto dto = new()
+            {
+                Project = _project,
+                ProcessOutputService = _processOutputService
+            };
+
+            if (_proccesIndex == 0)
+            {
+                _proccesIndex = ProjectRunnerService.Create(dto);
+            }
+            else
+            {
+                ProjectRunnerService.Update(_proccesIndex, dto);
+            }
+
+            SetTerminalOutput();
+        }
+
         private void SetActionButtonText()
         {
             BtnAction.Text = _isRunning ? Resources.Strings.Stop : Resources.Strings.Run;
         }
 
-        private void ValidateProccessRunnig()
+        private void SetTerminalOutput()
         {
-            _isRunning = false;
-
-            if (_project.ProcessId != null)
-            {
-                _isRunning = ProjectRunnerService.ProcessExists(_project.ProcessId.Value);
-            }
+            _processOutputService.SetBeginOutputHandler(ProjectRunnerService.BeginOutputReadLine, _proccesIndex);
+            _processOutputService.SetCancelOutputHandler(ProjectRunnerService.CancelOutputRead, _proccesIndex);
         }
 
     }

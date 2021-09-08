@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProjectRunner.Common.Contracts;
 using ProjectRunner.Common.Entities;
-using ProjectRunner.Common.Interfaces;
 using ProjectRunner.Infra.Data.Context;
 using System;
 using System.Collections.Generic;

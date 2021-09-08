@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using ProjectRunner.Common.Contracts;
 using ProjectRunner.Common.Entities;
-using ProjectRunner.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
