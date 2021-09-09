@@ -30,6 +30,7 @@ namespace ProjectRunner.Desktop.UserControls
             ProjectRunnerService.SetRepositoryService(service);
             _processOutputService = new ProcessOutputService();
             SetProject(project);
+            SetActionButtonText();
             MSManageItems.Text = Resources.Strings.Manage;
             MSManageEditItem.Text = Resources.Strings.Edit;
             MSManageRemoveItem.Text = Resources.Strings.Remove;
