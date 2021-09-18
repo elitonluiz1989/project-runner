@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="ProjectRunner.WPF.Components.NavigationBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectRunner.WPF.Components"
+             xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:NavigationViewModel}"
+             mc:Ignorable="d" 
+             d:DesignHeight="30">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Components/NavigationBar.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid FocusManager.IsFocusScope="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Button
+            Grid.Column="0"
+            BorderThickness="0, 0, 0, 1"
+            Style="{StaticResource ButtonSeparator}" />
+
+        <Button
+            x:Name="BtnProjects"
+            Grid.Column="1"
+            Command="{Binding NavigateProjectsCommand}"
+            Content="Projects"
+            Style="{StaticResource BtnDefault}"/>
+
+        <Button
+            x:Name="BtnExecutables"
+            Grid.Column="2"
+            Command="{Binding NavigateExecutablesCommand}"
+            Content="Executables"
+            Style="{StaticResource BtnDefault}" />
+
+        <Button
+            x:Name="BtnSettings"
+            Grid.Column="3"
+            Command="{Binding NavigateSettingsCommand}"
+            Content="Settings"
+            Style="{StaticResource BtnDefault}" />
+
+        <Button
+            Grid.Column="4"
+            Style="{StaticResource ButtonSeparator}" />
+    </Grid>
+</UserControl>
