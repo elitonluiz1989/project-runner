@@ -1,40 +1,44 @@
-﻿using ProjectRunner.WPF.Services;
+﻿using Microsoft.Extensions.DependencyInjection;
+using ProjectRunner.WPF.Contracts;
+using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
 using ProjectRunner.WPF.ViewModels;
+using System;
 using System.Windows;
 
 namespace ProjectRunner.WPF
 {
     public partial class App : Application
     {
-        private readonly NavigationStore _navigationStore;
-        private readonly NavigationViewModel _navigationViewModel;
+        private readonly IServiceProvider _servicesProvider;
 
         public App()
         {
-            _navigationStore = new();
-            _navigationViewModel = new(
-                CreateProjectsNavigationService(),
-                new NavigationService<ExecutablesViewModel>(_navigationStore, () => new ExecutablesViewModel(_navigationViewModel, _navigationStore)),
-                new NavigationService<SettingsViewModel>(_navigationStore, () => new SettingsViewModel(_navigationViewModel, _navigationStore))
-            );
+            IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<NavigationStore>();
+
+            services.AddTransient<ProjectsViewModel>();
+            services.AddTransient<ExecutablesViewModel>();
+            services.AddTransient<SettingsViewModel>();
+            services.AddSingleton<NavigationViewModel>();
+            services.AddSingleton<MainViewModel>();
+
+            services.AddSingleton<ProjectsNavigationService>();
+            services.AddSingleton<ExecutablesNavigationService>();
+            services.AddSingleton<SettingsNavigationService>();
+
+            services.AddSingleton(s => new MainWindow() { DataContext = s.GetRequiredService<MainViewModel>() });
+
+            _servicesProvider = services.BuildServiceProvider();
         }
 
         public void AppStartup(object sender, StartupEventArgs e)
         {
-            NavigationService<ProjectsViewModel> navigationService = CreateProjectsNavigationService();
+            INavigationService navigationService = _servicesProvider.GetRequiredService<ProjectsNavigationService>();
             navigationService.Navigate();
 
-            MainWindow mainWindow = new()
-            {
-                DataContext = new MainViewModel(_navigationViewModel, _navigationStore)
-            };
+            MainWindow mainWindow = _servicesProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
-        }
-
-        private NavigationService<ProjectsViewModel> CreateProjectsNavigationService()
-        {
-            return new NavigationService<ProjectsViewModel>(_navigationStore, () => new ProjectsViewModel(_navigationViewModel, _navigationStore));
         }
     }
 }

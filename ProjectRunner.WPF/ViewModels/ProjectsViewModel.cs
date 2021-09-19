@@ -1,24 +1,14 @@
-﻿using ProjectRunner.WPF.Commands;
-using ProjectRunner.WPF.Services;
-using ProjectRunner.WPF.Stores;
-using System.Windows.Input;
+﻿using ProjectRunner.WPF.Stores;
 
 namespace ProjectRunner.WPF.ViewModels
 {
     public class ProjectsViewModel : ViewModel
     {
-        public ICommand NavigationExecutablesCommand { get; set; }
-        private readonly NavigationViewModel _navigationViewModel;
+        private NavigationStore _navigationStore;
 
-        public ProjectsViewModel(NavigationViewModel navigationViewModel, NavigationStore navigationStore)
+        public ProjectsViewModel(NavigationStore navigationStore)
         {
-            _navigationViewModel = navigationViewModel;
-            NavigationExecutablesCommand = new NavigateCommand<ExecutablesViewModel>(
-                new NavigationService<ExecutablesViewModel>(
-                    navigationStore,
-                    () => new ExecutablesViewModel(navigationViewModel, navigationStore)
-                )
-            );
+            _navigationStore = navigationStore;
         }
     }
 }

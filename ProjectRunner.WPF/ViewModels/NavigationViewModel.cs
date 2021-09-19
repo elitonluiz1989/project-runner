@@ -11,14 +11,14 @@ namespace ProjectRunner.WPF.ViewModels
         public ICommand NavigateSettingsCommand { get; }
 
         public NavigationViewModel(
-            NavigationService<ProjectsViewModel> projectNavigationService,
-            NavigationService<ExecutablesViewModel> executablesNavigationService,
-            NavigationService<SettingsViewModel> settingsNavigationService
+            ProjectsNavigationService projectsNavigationService,
+            ExecutablesNavigationService executablesNavigationService,
+            SettingsNavigationService settingsNavigationService
         )
         {
-            NavigateProjectsCommand = new NavigateCommand<ProjectsViewModel>(projectNavigationService);
-            NavigateExecutablesCommand = new NavigateCommand<ExecutablesViewModel>(executablesNavigationService);
-            NavigateSettingsCommand = new NavigateCommand<SettingsViewModel>(settingsNavigationService);
+            NavigateProjectsCommand = new NavigateCommand(projectsNavigationService);
+            NavigateExecutablesCommand = new NavigateCommand(executablesNavigationService);
+            NavigateSettingsCommand = new NavigateCommand(settingsNavigationService);
         }
     }
 }

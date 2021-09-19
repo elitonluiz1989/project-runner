@@ -10,44 +10,47 @@
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="Project Runner"
-        Height="600"
         Width="400"
+        MinWidth="400"
+        Height="600"
+        MinHeight="600"
         Background="#c8c8c8">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Styles/MainWindow.xaml"/>
+                <ResourceDictionary Source="Resources/Styles/Components/Layout.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
     
     <Grid>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type viewmodels:ProjectsViewModel}">
-                <views:ProjectsView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:ExecutablesViewModel}">
-                <views:ExecutablesView />
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
-                <views:SettingsView />
-            </DataTemplate>
-        </Grid.Resources>
-
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <components:NavigationBar
             Grid.Row="0"
             DataContext="{Binding NavigationViewModel}" />
-        
+
         <DockPanel
             Grid.Row="1"
             Style="{StaticResource ContentView}">
             <Border Style="{StaticResource BorderView}">
-                <ContentControl Content="{Binding CurrentViewModel}" />
+                <ContentControl
+                    Content="{Binding CurrentViewModel}">
+                    <ContentControl.Resources>
+                        <DataTemplate DataType="{x:Type viewmodels:ProjectsViewModel}">
+                            <views:ProjectsView />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewmodels:ExecutablesViewModel}">
+                            <views:ExecutablesView />
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">
+                            <views:SettingsView />
+                        </DataTemplate>
+                    </ContentControl.Resources>
+                </ContentControl>
             </Border>
         </DockPanel>
     </Grid>

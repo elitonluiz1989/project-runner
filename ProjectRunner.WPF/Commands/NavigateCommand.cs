@@ -1,15 +1,12 @@
-﻿using ProjectRunner.WPF.Services;
-using ProjectRunner.WPF.Stores;
-using ProjectRunner.WPF.ViewModels;
+﻿using ProjectRunner.WPF.Contracts;
 
 namespace ProjectRunner.WPF.Commands
 {
-    public class NavigateCommand<T> : Command
-        where T : ViewModel
+    public class NavigateCommand : Command
     {
-        private readonly NavigationService<T> _navigationService;
+        private readonly INavigationService _navigationService;
 
-        public NavigateCommand(NavigationService<T> navigationService)
+        public NavigateCommand(INavigationService navigationService)
         {
             _navigationService = navigationService;
         }
