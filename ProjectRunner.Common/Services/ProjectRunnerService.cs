@@ -12,7 +12,7 @@ namespace ProjectRunner.Common.Services
 {
     public class ProjectRunnerService
     {
-        private static IRepositoryService<Project> _repository;
+        private static IBaseRepository<Project> _repository;
         private static readonly List<ProjectRunnerDto> _runners = new();
 
         public static int Create(ProjectRunnerDto dto)
@@ -100,7 +100,7 @@ namespace ProjectRunner.Common.Services
             _runners[index].Process.CancelErrorRead();
         }
 
-        public static void SetRepositoryService(IRepositoryService<Project> repository)
+        public static void SetRepositoryService(IBaseRepository<Project> repository)
         {
             _repository = repository;
         }

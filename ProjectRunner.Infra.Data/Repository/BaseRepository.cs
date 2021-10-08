@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FluentValidation;
 using ProjectRunner.Common.Contracts;
 using ProjectRunner.Common.Entities;
 using ProjectRunner.Infra.Data.Context;
@@ -9,71 +9,51 @@ using System.Linq;
 namespace ProjectRunner.Infra.Data.Repository
 {
 
-    public class BaseRepository<Entity> : IRepository<Entity> where Entity : BaseEntity
+    public class BaseRepository<TEntity> : Repository<TEntity>, IBaseRepository<TEntity>
+        where TEntity : BaseEntity
     {
-        protected readonly SQLiteContext SQLiteContext;
+        public BaseRepository(SQLiteContext dbContext) : base(dbContext)
+        { }
 
-        public BaseRepository(SQLiteContext dbContext)
+        public TEntity Save<TValidator>(TEntity entity) where TValidator : AbstractValidator<TEntity>
         {
-            SQLiteContext = dbContext;
-        }
+            Validate(entity, Activator.CreateInstance<TValidator>());
 
-        public void Insert(Entity obj)
-        {
-            SQLiteContext.Set<Entity>().Add(obj);
-            SQLiteContext.SaveChanges();
-        }
-
-        public void Update(Entity obj)
-        {
-            SQLiteContext.Entry(obj).State = EntityState.Modified;
-            SQLiteContext.SaveChanges();
-        }
-
-        public void Delete(int id)
-        {
-            SQLiteContext.Set<Entity>().Remove(Select(id));
-            SQLiteContext.SaveChanges();
-        }
-
-        public IList<Entity> Select()
-        {
-            var query = SelectQueryBuilder();
-
-            return query.ToList();
-        }
-
-        public IList<Entity> Select(Func<IQueryable<Entity>, IQueryable<Entity>> filter)
-        {
-            var query = SelectQueryBuilder(filter);
-
-            return query.ToList();
-        }
-
-        public Entity Select(int id)
-        {
-            var query = SelectQueryBuilder();
-
-            return query.FirstOrDefault(e => e.Id == id);
-        }
-
-        public Entity Select(int id, Func<IQueryable<Entity>, IQueryable<Entity>> filter)
-        {
-            var query = SelectQueryBuilder(filter);
-
-            return query.FirstOrDefault(e => e.Id == id);
-        }
-
-        private IQueryable<Entity> SelectQueryBuilder(Func<IQueryable<Entity>, IQueryable<Entity>> filter = null)
-        {
-            IQueryable<Entity> query = SQLiteContext.Set<Entity>();
-
-            if (filter != null)
+            if (entity.Id > 0)
             {
-                query = filter(query);
+                Update(entity);
+            }
+            else
+            {
+                Insert(entity);
             }
 
-            return query;
+            return entity;
+        }
+
+        public IList<TEntity> All()
+        {
+            return Select();
+        }
+
+        public TEntity Find(int id)
+        {
+            return Select(id);
+        }
+
+        public TEntity Find(int id, Func<IQueryable<TEntity>, IQueryable<TEntity>> filter)
+        {
+            return Select(id, filter);
+        } 
+
+        private static void Validate(TEntity entity, AbstractValidator<TEntity> validator)
+        {
+            if (entity == null)
+            {
+                throw new ArgumentNullException(nameof(entity));
+            }
+
+            validator.ValidateAndThrow(entity);
         }
     }
 }

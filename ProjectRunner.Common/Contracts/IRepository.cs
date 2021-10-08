@@ -5,14 +5,15 @@ using System.Linq;
 
 namespace ProjectRunner.Common.Contracts
 {
-    public interface IRepository<Entity> where Entity : BaseEntity
+    public interface IRepository<TEntity>
+        where TEntity : BaseEntity
     {
-        void Insert(Entity entity);
-        void Update(Entity entity);
+        void Insert(TEntity entity);
+        void Update(TEntity entity);
         void Delete(int id);
-        IList<Entity> Select();
-        IList<Entity> Select(Func<IQueryable<Entity>, IQueryable<Entity>> filter);
-        Entity Select(int id);
-        Entity Select(int id, Func<IQueryable<Entity>, IQueryable<Entity>> filter);
+        IList<TEntity> Select();
+        IList<TEntity> Select(Func<IQueryable<TEntity>, IQueryable<TEntity>> filter);
+        TEntity Select(int id);
+        TEntity Select(int id, Func<IQueryable<TEntity>, IQueryable<TEntity>> filter);
     }
 }
