@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ProjectRunner.Infra.Data.Context;
+using ProjectRunner.Infra.Data.Repository;
 using ProjectRunner.WPF.Contracts;
 using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
@@ -15,6 +17,9 @@ namespace ProjectRunner.WPF
         public App()
         {
             IServiceCollection services = new ServiceCollection();
+            services.AddSingleton<SQLiteContext>();
+            services.AddSingleton(s => new ProjectRepository(s.GetRequiredService<SQLiteContext>()));
+
             services.AddSingleton<NavigationStore>();
 
             services.AddTransient<ProjectsViewModel>();

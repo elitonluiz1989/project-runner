@@ -7,6 +7,40 @@
         <ResourceDictionary>
             <SolidColorBrush x:Key="DefaultBackgroundGray" Color="#e0e0e0" />
             <SolidColorBrush x:Key="HighlightedBackgroundGray" Color="#f5f5f5" />
+
+            <Style x:Key="Btn" TargetType="Button">
+                <Setter Property="Padding" Value="10 5" />
+                <Setter Property="BorderThickness" Value="0" />
+            </Style>
+
+            <Style x:Key="BtnDefault" TargetType="Button" BasedOn="{StaticResource Btn}">
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+            </Style>
+            
+            <ItemsPanelTemplate x:Key="NoIcomMenuItemsPanel">
+                <StackPanel Background="WhiteSmoke" />
+            </ItemsPanelTemplate>
+
+            <Style x:Key="MenuItemButton" TargetType="MenuItem">
+                <Setter Property="BorderBrush" Value="Gray" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="Margin" Value="5 0" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="Width" Value="80" />
+                <Setter Property="ItemsPanel" Value="{StaticResource NoIcomMenuItemsPanel}" />
+                <Style.Resources>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="HeaderTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding}" Margin="-25, 0, 0, 0" />
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Style.Resources>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

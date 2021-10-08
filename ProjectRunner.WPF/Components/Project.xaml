@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="ProjectRunner.WPF.Components.Project"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ProjectRunner.WPF.Components"
+             xmlns:entities="clr-namespace:ProjectRunner.Common.Entities;assembly=ProjectRunner.Common"
+             d:DataContext="{d:DesignInstance Type=entities:Project}"
+             mc:Ignorable="d" 
+             Height="50"
+             d:DesignWidth="400">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Resources/Styles/Components/Project.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Border>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock
+                Grid.Column="0"
+                Text="{Binding Name}" />
+
+            <Menu Grid.Column="1">
+                <MenuItem
+                    Header="Run"
+                    Style="{StaticResource MenuItemButton}" />
+                
+                <MenuItem
+                    Header="Manage"
+                    Style="{StaticResource MenuItemButton}">
+                    <MenuItem Header="Edit" />
+                    <MenuItem Header="Remove" />
+                    <MenuItem Header="Output" />
+                </MenuItem>
+            </Menu>
+        </Grid>
+    </Border>    
+</UserControl>
