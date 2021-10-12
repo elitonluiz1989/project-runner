@@ -1,37 +1,23 @@
-﻿using ProjectRunner.Common.Contracts;
-using ProjectRunner.Common.Entities;
+﻿using ProjectRunner.Common.Entities;
 using ProjectRunner.Infra.Data.Repository;
+using ProjectRunner.WPF.Commands;
 using ProjectRunner.WPF.Stores;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace ProjectRunner.WPF.ViewModels
 {
-    public class ProjectsViewModel : RecordsManagementViewModel
+    public class ProjectsViewModel : RecordsManagementViewModel<Project>
     {
         private NavigationStore _navigationStore;
-        private ProjectRepository _projectRepository;
 
         public ProjectsViewModel(
             NavigationStore navigationStore,
-            ProjectRepository projectRepository
-        )
+            BaseRepository<Project> projectRepository,
+            ShowProductFormCommand showProjectFormCommand
+        ) : base(projectRepository)
         {
             _navigationStore = navigationStore;
-            _projectRepository = projectRepository;
-            GetProjects();
-        }
-
-        private void GetProjects()
-        {
-             _records = new ObservableCollection<Project>();
-
-            List<Project> projects = _projectRepository.All() as List<Project>;
-
-            foreach (Project project in projects)
-            {
-                _records.Add(project);
-            }
+            ShowRecordFormCommand = showProjectFormCommand;
+            GetRecords();
         }
     }
 }

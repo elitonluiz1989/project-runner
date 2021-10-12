@@ -27,7 +27,7 @@ namespace ProjectRunner.Desktop.UserControls
             InitializeComponent();
 
             BaseRepositoryService<Project> service = new(new BaseRepository<Project>(new SQLiteContext()));
-            ProjectRunnerService.SetRepositoryService(service);
+            //ProjectRunnerService.SetRepositoryService(service);
             _processOutputService = new ProcessOutputService();
             SetProject(project);
             SetActionButtonText();

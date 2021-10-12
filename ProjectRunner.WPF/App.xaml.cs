@@ -1,10 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using ProjectRunner.Common.Entities;
 using ProjectRunner.Infra.Data.Context;
 using ProjectRunner.Infra.Data.Repository;
+using ProjectRunner.WPF.Commands;
 using ProjectRunner.WPF.Contracts;
 using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
 using ProjectRunner.WPF.ViewModels;
+using ProjectRunner.WPF.Views;
 using System;
 using System.Windows;
 
@@ -18,7 +21,8 @@ namespace ProjectRunner.WPF
         {
             IServiceCollection services = new ServiceCollection();
             services.AddSingleton<SQLiteContext>();
-            services.AddSingleton(s => new ProjectRepository(s.GetRequiredService<SQLiteContext>()));
+            services.AddSingleton<BaseRepository<Project>>();
+            services.AddSingleton<BaseRepository<Executable>>();
 
             services.AddSingleton<NavigationStore>();
 
@@ -32,13 +36,19 @@ namespace ProjectRunner.WPF
             services.AddSingleton<ExecutablesNavigationService>();
             services.AddSingleton<SettingsNavigationService>();
 
+            services.AddTransient<ShowProductFormCommand>();
+            services.AddTransient<ShowExecutablesFormCommand>();
+
             services.AddSingleton(s => new MainWindow() { DataContext = s.GetRequiredService<MainViewModel>() });
 
             _servicesProvider = services.BuildServiceProvider();
         }
 
-        public void AppStartup(object sender, StartupEventArgs e)
+        public async void AppStartup(object sender, StartupEventArgs e)
         {
+            SQLiteContext dbContext = _servicesProvider.GetRequiredService<SQLiteContext>();
+            await dbContext.InitializeDatabase();
+
             INavigationService navigationService = _servicesProvider.GetRequiredService<ProjectsNavigationService>();
             navigationService.Navigate();
 

@@ -1,11 +1,11 @@
-﻿<UserControl x:Class="ProjectRunner.WPF.Components.Project"
+﻿<UserControl x:Class="ProjectRunner.WPF.Components.Executable"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectRunner.WPF.Components"
              xmlns:entities="clr-namespace:ProjectRunner.Common.Entities;assembly=ProjectRunner.Common"
-             d:DataContext="{d:DesignInstance Type=entities:Project}"
+             d:DataContext="{d:DesignInstance Type=entities:Executable}"
              mc:Ignorable="d" 
              Height="50"
              d:DesignWidth="400">
@@ -30,17 +30,12 @@
 
             <Menu Grid.Column="1">
                 <MenuItem
-                    Header="Run"
-                    Style="{StaticResource MenuItemButton}" />
-                
-                <MenuItem
                     Header="Manage"
                     Style="{StaticResource MenuItemButton}">
                     <MenuItem Header="Edit" />
                     <MenuItem Header="Remove" />
-                    <MenuItem Header="Output" />
                 </MenuItem>
             </Menu>
         </Grid>
-    </Border>    
+    </Border>
 </UserControl>

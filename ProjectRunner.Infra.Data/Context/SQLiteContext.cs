@@ -4,6 +4,7 @@ using ProjectRunner.Common.Tools;
 using ProjectRunner.Infra.Data.Mapping;
 using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace ProjectRunner.Infra.Data.Context
 {
@@ -13,14 +14,10 @@ namespace ProjectRunner.Infra.Data.Context
         public DbSet<Project> Projects { get; set; }
 
         public SQLiteContext() : base()
-        {
-            InitializeDatabase();
-        }
+        {}
 
         public SQLiteContext(DbContextOptions<SQLiteContext> options) : base(options)
-        {
-            InitializeDatabase();
-        }
+        {}
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -40,9 +37,11 @@ namespace ProjectRunner.Infra.Data.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        private static void InitializeDatabase()
+        public async Task InitializeDatabase()
         {
             Directory.CreateDirectory(Utils.DatabaseInfo.Path);
+            await Database.EnsureCreatedAsync();
+            Database.Migrate();
         }
     }
 }

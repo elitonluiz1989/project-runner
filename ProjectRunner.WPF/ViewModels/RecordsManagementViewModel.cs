@@ -1,19 +1,33 @@
-﻿using ProjectRunner.Common.Entities;
+﻿using ProjectRunner.Common.Contracts;
+using ProjectRunner.Common.Entities;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace ProjectRunner.WPF.ViewModels
 {
-    public abstract class RecordsManagementViewModel : ViewModel
+    public abstract class RecordsManagementViewModel<TEntity> : ViewModel
+        where TEntity : BaseEntity
     {
-        protected ObservableCollection<Project> _records;
-        public IEnumerable<Project> Records => _records;
+        private ObservableCollection<TEntity> _records;
+        public IEnumerable<TEntity> Records => _records;
+        public ICommand ShowRecordFormCommand { get; set; }
+        protected IBaseRepository<TEntity> Repository;
 
-        public ICommand AddRecordCommand { get; }
-
-        public RecordsManagementViewModel()
+        public RecordsManagementViewModel(IBaseRepository<TEntity> repository)
         {
+            Repository = repository;
+        }
+
+        protected void GetRecords()
+        {
+            _records = new ObservableCollection<TEntity>();
+            List<TEntity> records = Repository.All() as List<TEntity>;
+
+            foreach (TEntity record in records)
+            {
+                _records.Add(record);
+            }
         }
     }
 }

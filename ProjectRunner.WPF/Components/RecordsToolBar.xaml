@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectRunner.WPF.Components"
+             xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels"
+             d:DataContext="{d:DesignInstance Type=viewmodels:RecordsManagementViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="50"
              d:DesignWidth="400">
@@ -20,6 +22,6 @@
         <Button
             Style="{StaticResource BtnAdd}"
             Content="Add"
-            Command="{Binding AddRecordCommand}"/>
+            Command="{Binding ShowRecordFormCommand}"/>
     </Border>
 </UserControl>

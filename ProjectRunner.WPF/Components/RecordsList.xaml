@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProjectRunner.WPF.Components" xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels" d:DataContext="{d:DesignInstance Type=viewmodels:RecordsManagementViewModel}"
+             xmlns:local="clr-namespace:ProjectRunner.WPF.Components"
+             xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels"
+             xmlns:entities="clr-namespace:ProjectRunner.Common.Entities;assembly=ProjectRunner.Common"
+             d:DataContext="{d:DesignInstance Type=viewmodels:RecordsManagementViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="600"
              d:DesignWidth="400
@@ -25,11 +28,14 @@
                 <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             </Style>
         </ListView.ItemContainerStyle>
-
-        <ListView.ItemTemplate>
-            <DataTemplate>
+        <ListView.Resources>
+            <DataTemplate DataType="{x:Type entities:Project}">
                 <local:Project DataContext="{Binding }" />
             </DataTemplate>
-        </ListView.ItemTemplate>
+
+            <DataTemplate DataType="{x:Type entities:Executable}">
+                <local:Executable DataContext="{Binding }" />
+            </DataTemplate>
+        </ListView.Resources>
     </ListView>
 </UserControl>
