@@ -1,5 +1,6 @@
 ﻿using ProjectRunner.Common.Entities;
 using ProjectRunner.Infra.Data.Repository;
+using ProjectRunner.WPF.Commands;
 using ProjectRunner.WPF.Stores;
 
 namespace ProjectRunner.WPF.ViewModels
@@ -10,10 +11,12 @@ namespace ProjectRunner.WPF.ViewModels
 
         public ExecutablesViewModel(
             NavigationStore navigationStore,
-            BaseRepository<Executable> executablesRepository
+            BaseRepository<Executable> executablesRepository,
+            ShowExecutablesFormCommand showExecutablesFormCommand
         ) : base(executablesRepository)
         {
             _navigationStore = navigationStore;
+            ShowRecordFormCommand = showExecutablesFormCommand;
             GetRecords();
         }
     }

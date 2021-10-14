@@ -1,9 +1,9 @@
-﻿<Window x:Class="ProjectRunner.WPF.Views.ProjectView"
+﻿<Window x:Class="ProjectRunner.WPF.Views.Forms.ProjectForm"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:ProjectRunner.WPF.Views"
+        xmlns:local="clr-namespace:ProjectRunner.WPF.Views.Forms"
         mc:Ignorable="d"
         Title="Project"
         Height="350"
@@ -11,6 +11,6 @@
         ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
     <Grid>
-        <TextBlock Text="Teste" />
+        <TextBlock Text="Test" />
     </Grid>
 </Window>

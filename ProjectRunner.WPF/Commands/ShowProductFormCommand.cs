@@ -1,4 +1,4 @@
-﻿using ProjectRunner.WPF.Views;
+﻿using ProjectRunner.WPF.Views.Forms;
 
 namespace ProjectRunner.WPF.Commands
 {
@@ -6,8 +6,8 @@ namespace ProjectRunner.WPF.Commands
     {
         public override void Execute(object parameter)
         {
-            ProjectView projectView = new();
-            projectView.ShowDialog();
+            ProjectForm projectForm = new();
+            projectForm.ShowDialog();
         }
     }
 }
