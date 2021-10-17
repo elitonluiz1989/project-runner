@@ -1,10 +1,7 @@
 ﻿using System.Windows.Controls;
 
-namespace ProjectRunner.WPF.Components
+namespace ProjectRunner.WPF.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for Project.xaml
-    /// </summary>
     public partial class Project : UserControl
     {
         public Project()

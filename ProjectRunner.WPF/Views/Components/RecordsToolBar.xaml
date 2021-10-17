@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="ProjectRunner.WPF.Components.RecordsToolBar"
+﻿<UserControl x:Class="ProjectRunner.WPF.Views.Components.RecordsToolBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ProjectRunner.WPF.Components"
+             xmlns:local="clr-namespace:ProjectRunner.WPF.Views.Components"
              xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels"
              d:DataContext="{d:DesignInstance Type=viewmodels:RecordsManagementViewModel}"
              mc:Ignorable="d" 
@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../Resources/Styles/Components/RecordsToolBar.xaml"/>
+                <ResourceDictionary Source="../../Resources/Styles/Components/RecordsToolBar.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

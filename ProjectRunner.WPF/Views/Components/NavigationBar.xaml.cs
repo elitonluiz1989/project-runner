@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace ProjectRunner.WPF.Components
+namespace ProjectRunner.WPF.Views.Components
 {
     public partial class NavigationBar : UserControl
     {

@@ -1,10 +1,7 @@
 ﻿using System.Windows.Controls;
 
-namespace ProjectRunner.WPF.Components
+namespace ProjectRunner.WPF.Views.Components
 {
-    /// <summary>
-    /// Interaction logic for Executable.xaml
-    /// </summary>
     public partial class Executable : UserControl
     {
         public Executable()
