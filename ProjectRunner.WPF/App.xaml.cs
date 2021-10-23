@@ -7,7 +7,6 @@ using ProjectRunner.WPF.Contracts;
 using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
 using ProjectRunner.WPF.ViewModels;
-using ProjectRunner.WPF.Views;
 using System;
 using System.Windows;
 

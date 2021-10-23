@@ -17,7 +17,7 @@
                 <Setter Property="BorderBrush" Value="Gray" />
                 <Setter Property="BorderThickness" Value="1" />
             </Style>
-            
+
             <ItemsPanelTemplate x:Key="NoIcomMenuItemsPanel">
                 <StackPanel Background="WhiteSmoke" />
             </ItemsPanelTemplate>
@@ -40,6 +40,13 @@
                         </Setter>
                     </Style>
                 </Style.Resources>
+            </Style>
+
+            <Style x:Key="FormDefault" TargetType="Window">
+                <Setter Property="Background" Value="#fdfdfd" />
+                <Setter Property="Height" Value="auto" />
+                <Setter Property="SizeToContent" Value="Height" />
+                <Setter Property="ResizeMode" Value="NoResize" />
             </Style>
         </ResourceDictionary>
     </Application.Resources>

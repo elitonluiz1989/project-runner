@@ -4,9 +4,7 @@
     <converters:CheckShowDialogButtonConverter x:Key="Converter" />
 
     <Style TargetType="Label">
-        <Setter Property="BorderBrush" Value="Red"/>
-        <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="FontSize" Value="14" />
+        <Setter Property="FontSize" Value="13" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="VerticalContentAlignment" Value="Center" />

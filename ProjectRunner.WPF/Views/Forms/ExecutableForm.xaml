@@ -6,36 +6,32 @@
         xmlns:local="clr-namespace:ProjectRunner.WPF.Views.Forms"
         xmlns:components="clr-namespace:ProjectRunner.WPF.Views.Components"
         mc:Ignorable="d"
+        Name="ExecutableFormCompoment"
         Title="Executable"
-        Height="150"
+        Style="{StaticResource FormDefault}"
         Width="450"
-        ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner">
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../../Resources/Styles/Views/RecordFormView.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40" />
             <RowDefinition Height="40" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <components:FormField
+            x:Name="FfName"
             Grid.Row="0"
             Label="Name"
-            Text=""
             Type="Text" />
 
         <components:FormField
+            x:Name="FfFileName"
             Grid.Row="1"
             Label="File"
-            Text=""
             Type="File" />
+
+        <components:FormControls
+            x:Name="FormControlsComponent"
+            Grid.Row="2" />
     </Grid>
 </Window>

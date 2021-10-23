@@ -31,12 +31,13 @@
         <TextBox
             x:Name="FieldText"
             Grid.Column="1"
-            Text="{Binding Text, ElementName=FormFieldComponent}" />
+            Text="{Binding Value, ElementName=FormFieldComponent}" />
 
         <Button
             x:Name="BtnDialog"
             Grid.Column="2"
             Style="{StaticResource BtnOpenDialog}"
-            Content="..." />
+            Content="..."
+            Click="BtnDialog_Click"/>
     </Grid>
 </UserControl>
