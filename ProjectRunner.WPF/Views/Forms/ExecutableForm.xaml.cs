@@ -1,4 +1,7 @@
 ﻿using ProjectRunner.Common.Entities;
+using ProjectRunner.Common.Tools;
+using ProjectRunner.WPF.Stores;
+using ProjectRunner.WPF.ViewModels.Executables;
 using System;
 using System.Windows;
 
@@ -6,14 +9,18 @@ namespace ProjectRunner.WPF.Views.Forms
 {
     public partial class ExecutableForm : Window, IDisposable
     {
-        private Executable _executable { get; set; }
+        private ExecutableViewModel _viewModel;
+        private ExecutablesStore _store;
 
-        public ExecutableForm(Executable executable = null)
+        public ExecutableForm(ExecutablesStore store)
         {
             InitializeComponent();
+            _viewModel = new ExecutableViewModel();
+            _store = store;
             Owner = Application.Current.MainWindow;
+            DataContext = _viewModel;
             DefineEvents();
-            FillForm(executable);
+            FillForm(null);
         }
 
         private void DefineEvents()
@@ -29,15 +36,30 @@ namespace ProjectRunner.WPF.Views.Forms
 
         private void SaveEvent(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Recorded!");
+            try
+            {
+                Executable executable = new();
+                executable.Id = _viewModel.Id;
+                executable.Name = _viewModel.Name;
+                executable.FileName = _viewModel.FileName;
+
+                _store.Save(executable);
+
+                MessageBox.Show("Executable saved.");
+                Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(Utils.HandleExceptionMessage(ex));
+            }
         }
 
         private void FillForm(Executable executable)
         {
-            _executable = executable ?? new();
-
-            FfName.Value = _executable.Name;
-            FfFileName.Value = _executable.FileName;
+            executable ??= new();
+            _viewModel.Id = executable.Id;
+            _viewModel.Name = executable.Name;
+            _viewModel.FileName = executable.FileName;
         }
 
         public void Dispose()

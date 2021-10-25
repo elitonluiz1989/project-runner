@@ -7,6 +7,7 @@
         xmlns:components="clr-namespace:ProjectRunner.WPF.Views.Components"
         xmlns:views="clr-namespace:ProjectRunner.WPF.Views"
         xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels"
+        xmlns:viewmodels_executables="clr-namespace:ProjectRunner.WPF.ViewModels.Executables"
         d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
         mc:Ignorable="d"
         Title="Project Runner"
@@ -43,7 +44,7 @@
                         <DataTemplate DataType="{x:Type viewmodels:ProjectsViewModel}">
                             <views:ProjectsView />
                         </DataTemplate>
-                        <DataTemplate DataType="{x:Type viewmodels:ExecutablesViewModel}">
+                        <DataTemplate DataType="{x:Type viewmodels_executables:ExecutablesViewModel}">
                             <views:ExecutablesView />
                         </DataTemplate>
                         <DataTemplate DataType="{x:Type viewmodels:SettingsViewModel}">

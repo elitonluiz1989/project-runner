@@ -1,6 +1,6 @@
 ﻿using ProjectRunner.WPF.Contracts;
 using ProjectRunner.WPF.Stores;
-using ProjectRunner.WPF.ViewModels;
+using ProjectRunner.WPF.ViewModels.Executables;
 
 namespace ProjectRunner.WPF.Services
 {

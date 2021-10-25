@@ -6,27 +6,26 @@ using System.Windows.Input;
 
 namespace ProjectRunner.WPF.ViewModels
 {
-    public abstract class RecordsManagementViewModel<TEntity> : ViewModel
+    public abstract class RecordsViewModel<TEntity> : ViewModel
         where TEntity : BaseEntity
     {
-        private ObservableCollection<TEntity> _records;
-        public IEnumerable<TEntity> Records => _records;
+        public ObservableCollection<TEntity> Records { get; private set; }
         public ICommand ShowRecordFormCommand { get; set; }
         protected IBaseRepository<TEntity> Repository;
 
-        public RecordsManagementViewModel(IBaseRepository<TEntity> repository)
+        public RecordsViewModel(IBaseRepository<TEntity> repository)
         {
             Repository = repository;
         }
 
-        protected void GetRecords()
+        public void GetRecords()
         {
-            _records = new ObservableCollection<TEntity>();
+            Records = new ObservableCollection<TEntity>();
             List<TEntity> records = Repository.All() as List<TEntity>;
 
             foreach (TEntity record in records)
             {
-                _records.Add(record);
+                Records.Add(record);
             }
         }
     }

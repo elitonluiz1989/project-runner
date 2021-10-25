@@ -7,6 +7,7 @@ using ProjectRunner.WPF.Contracts;
 using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
 using ProjectRunner.WPF.ViewModels;
+using ProjectRunner.WPF.ViewModels.Executables;
 using System;
 using System.Windows;
 
@@ -24,6 +25,7 @@ namespace ProjectRunner.WPF
             services.AddSingleton<BaseRepository<Executable>>();
 
             services.AddSingleton<NavigationStore>();
+            services.AddSingleton<ExecutablesStore>();
 
             services.AddTransient<ProjectsViewModel>();
             services.AddTransient<ExecutablesViewModel>();

@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ProjectRunner.WPF.Views.Forms"
-        xmlns:components="clr-namespace:ProjectRunner.WPF.Views.Components"
+        xmlns:components="clr-namespace:ProjectRunner.WPF.Views.Components" 
+        xmlns:executables="clr-namespace:ProjectRunner.WPF.ViewModels.Executables" 
+        d:DataContext="{d:DesignInstance Type=executables:ExecutableViewModel}"
         mc:Ignorable="d"
         Name="ExecutableFormCompoment"
         Title="Executable"
@@ -22,13 +24,14 @@
             x:Name="FfName"
             Grid.Row="0"
             Label="Name"
-            Type="Text" />
+            Type="Text"
+            Value="{Binding Name, Mode=TwoWay}" />
 
         <components:FormField
-            x:Name="FfFileName"
             Grid.Row="1"
             Label="File"
-            Type="File" />
+            Type="File"
+            Value="{Binding FileName, Mode=TwoWay}" />
 
         <components:FormControls
             x:Name="FormControlsComponent"

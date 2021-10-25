@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectRunner.WPF.Views"
-             xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels"
              xmlns:components="clr-namespace:ProjectRunner.WPF.Views.Components"
-             d:DataContext="{d:DesignInstance Type=viewmodels:ExecutablesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="600"
              d:DesignWidth="400">
@@ -16,8 +14,12 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <components:RecordsToolBar Grid.Row="0" DataContext="{Binding}" />
+        <components:RecordsToolBar
+            Grid.Row="0"
+            DataContext="{Binding}"/>
 
-        <components:RecordsList Grid.Row="1" DataContext="{Binding}" />
+        <components:RecordsList
+            Grid.Row="1"
+            DataContext="{Binding}" />
     </Grid>
 </UserControl>
