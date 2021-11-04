@@ -33,10 +33,5 @@
                 OnPropertyChanged(nameof(FileName));
             }
         }
-
-        public static ExecutableViewModel CreateFrom<TType>(TType obj)
-        {
-            return CreateFrom<TType, ExecutableViewModel>(obj);
-        }
     }
 }

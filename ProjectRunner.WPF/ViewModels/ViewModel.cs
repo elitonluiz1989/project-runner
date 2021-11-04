@@ -1,5 +1,4 @@
-﻿using ProjectRunner.WPF.Mapping;
-using System;
+﻿using System;
 using System.ComponentModel;
 
 namespace ProjectRunner.WPF.ViewModels
@@ -14,15 +13,5 @@ namespace ProjectRunner.WPF.ViewModels
         }
 
         public virtual void Dispose() { }
-
-        public TType CastTo<TType>()
-        {
-            return AppMapper.Map<TType>(this);
-        }
-
-        public static TViewModel CreateFrom<TType, TViewModel>(TType obj)
-        {
-            return AppMapper.Map<TViewModel>(obj);
-        }
     }
 }

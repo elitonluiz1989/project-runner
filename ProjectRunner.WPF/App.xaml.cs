@@ -1,11 +1,9 @@
-﻿using AutoMapper;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using ProjectRunner.Common.Entities;
 using ProjectRunner.Infra.Data.Context;
 using ProjectRunner.Infra.Data.Repository;
 using ProjectRunner.WPF.Commands;
 using ProjectRunner.WPF.Contracts;
-using ProjectRunner.WPF.Mapping;
 using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
 using ProjectRunner.WPF.ViewModels;
@@ -44,8 +42,6 @@ namespace ProjectRunner.WPF
 
             services.AddSingleton(s => new MainWindow() { DataContext = s.GetRequiredService<MainViewModel>() });
 
-            InitializeMappingConfiguration(services);
-
             _servicesProvider = services.BuildServiceProvider();
         }
 
@@ -59,13 +55,6 @@ namespace ProjectRunner.WPF
 
             MainWindow mainWindow = _servicesProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
-        }
-
-        private static void InitializeMappingConfiguration(IServiceCollection services)
-        {
-            AppMapper.Initialize();            
-            IMapper mapper = AppMapper.GetMapper();
-            services.AddSingleton(s => mapper);
         }
     }
 }

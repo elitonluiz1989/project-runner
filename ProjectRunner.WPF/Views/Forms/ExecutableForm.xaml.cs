@@ -15,8 +15,10 @@ namespace ProjectRunner.WPF.Views.Forms
         public ExecutableForm(ExecutablesStore store)
         {
             InitializeComponent();
+            _viewModel = new ExecutableViewModel();
             _store = store;
             Owner = Application.Current.MainWindow;
+            DataContext = _viewModel;
             DefineEvents();
             FillForm(null);
         }
@@ -36,7 +38,11 @@ namespace ProjectRunner.WPF.Views.Forms
         {
             try
             {
-                Executable executable = _viewModel.CastTo<Executable>();
+                Executable executable = new();
+                executable.Id = _viewModel.Id;
+                executable.Name = _viewModel.Name;
+                executable.FileName = _viewModel.FileName;
+
                 _store.Save(executable);
 
                 MessageBox.Show("Executable saved.");
@@ -51,8 +57,9 @@ namespace ProjectRunner.WPF.Views.Forms
         private void FillForm(Executable executable)
         {
             executable ??= new();
-            _viewModel = ExecutableViewModel.CreateFrom(executable);
-            DataContext = _viewModel;
+            _viewModel.Id = executable.Id;
+            _viewModel.Name = executable.Name;
+            _viewModel.FileName = executable.FileName;
         }
 
         public void Dispose()
