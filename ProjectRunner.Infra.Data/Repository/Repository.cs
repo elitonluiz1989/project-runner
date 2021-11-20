@@ -26,7 +26,7 @@ namespace ProjectRunner.Infra.Data.Repository
 
         public void Update(TEntity obj)
         {
-            SQLiteContext.Entry(obj).State = EntityState.Modified;
+            SQLiteContext.Entry(obj).State = EntityState.Detached;
             SQLiteContext.SaveChanges();
         }
 

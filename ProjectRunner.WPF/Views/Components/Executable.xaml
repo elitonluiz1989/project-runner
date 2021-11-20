@@ -5,7 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectRunner.WPF.Views.Components"
              xmlns:entities="clr-namespace:ProjectRunner.Common.Entities;assembly=ProjectRunner.Common"
-             d:DataContext="{d:DesignInstance Type=entities:Executable}"
+             xmlns:executables="clr-namespace:ProjectRunner.WPF.ViewModels.Executables"
+             d:DataContext="{d:DesignInstance Type=executables:ExecutableViewModel}"
+             Name="ExecutableComponent"
              mc:Ignorable="d" 
              Height="50"
              d:DesignWidth="400">
@@ -32,7 +34,10 @@
                 <MenuItem
                     Header="Manage"
                     Style="{StaticResource MenuItemButton}">
-                    <MenuItem Header="Edit" />
+                    <MenuItem
+                        Header="Edit"
+                        Command="{Binding ShowFormCommand}"
+                        CommandParameter="{Binding }" />
                     <MenuItem Header="Remove" />
                 </MenuItem>
             </Menu>

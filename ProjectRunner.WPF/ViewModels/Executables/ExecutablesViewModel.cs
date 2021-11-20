@@ -2,6 +2,8 @@
 using ProjectRunner.Infra.Data.Repository;
 using ProjectRunner.WPF.Commands;
 using ProjectRunner.WPF.Stores;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace ProjectRunner.WPF.ViewModels.Executables
@@ -9,6 +11,8 @@ namespace ProjectRunner.WPF.ViewModels.Executables
     public class ExecutablesViewModel : RecordsViewModel<Executable>
     {
         private ExecutablesStore _store;
+        public new ObservableCollection<ExecutableViewModel> Records { get; set; }
+
         public ExecutablesViewModel(
             BaseRepository<Executable> executablesRepository,
             ExecutablesStore store,
@@ -21,9 +25,20 @@ namespace ProjectRunner.WPF.ViewModels.Executables
             GetRecords();
         }
 
+        public new void GetRecords()
+        {
+            Records = new ObservableCollection<ExecutableViewModel>();
+            List<Executable> records = Repository.All() as List<Executable>;
+
+            foreach (Executable record in records)
+            {
+                Records.Add(ExecutableViewModel.CreateFrom(record));
+            }
+        }
+
         private void OnExecutableSaved(Executable executable)
         {
-            Executable record = Records.Where(r => r.Id == executable.Id).FirstOrDefault();
+            ExecutableViewModel record = Records.Where(r => r.Id == executable.Id).FirstOrDefault();
 
             if (record != null)
             {
@@ -32,7 +47,7 @@ namespace ProjectRunner.WPF.ViewModels.Executables
             }
             else
             {
-                Records.Add(executable);
+                Records.Add(ExecutableViewModel.CreateFrom(executable));
             }
         }
 

@@ -1,6 +1,7 @@
 ﻿using ProjectRunner.Common.Entities;
 using ProjectRunner.Common.Tools;
 using ProjectRunner.WPF.Stores;
+using ProjectRunner.WPF.Tools;
 using ProjectRunner.WPF.ViewModels.Executables;
 using System;
 using System.Windows;
@@ -12,13 +13,16 @@ namespace ProjectRunner.WPF.Views.Forms
         private ExecutableViewModel _viewModel;
         private ExecutablesStore _store;
 
-        public ExecutableForm(ExecutablesStore store)
+        public ExecutableForm(
+            ExecutablesStore store,
+            ExecutableViewModel viewModel = null
+        )
         {
             InitializeComponent();
             _store = store;
             Owner = Application.Current.MainWindow;
             DefineEvents();
-            FillForm(null);
+            FillForm(viewModel);
         }
 
         private void DefineEvents()
@@ -48,10 +52,9 @@ namespace ProjectRunner.WPF.Views.Forms
             }
         }
 
-        private void FillForm(Executable executable)
+        private void FillForm(ExecutableViewModel viewModel)
         {
-            executable ??= new();
-            _viewModel = ExecutableViewModel.CreateFrom(executable);
+            _viewModel = viewModel ?? ServiceProviderAccessor.GetRequiredService<ExecutableViewModel>();
             DataContext = _viewModel;
         }
 

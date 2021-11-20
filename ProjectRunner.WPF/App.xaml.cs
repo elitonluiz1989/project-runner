@@ -8,6 +8,7 @@ using ProjectRunner.WPF.Contracts;
 using ProjectRunner.WPF.Mapping;
 using ProjectRunner.WPF.Services;
 using ProjectRunner.WPF.Stores;
+using ProjectRunner.WPF.Tools;
 using ProjectRunner.WPF.ViewModels;
 using ProjectRunner.WPF.ViewModels.Executables;
 using System;
@@ -17,7 +18,7 @@ namespace ProjectRunner.WPF
 {
     public partial class App : Application
     {
-        private readonly IServiceProvider _servicesProvider;
+        private readonly IServiceProvider _serviceProvider;
 
         public App()
         {
@@ -31,6 +32,7 @@ namespace ProjectRunner.WPF
 
             services.AddTransient<ProjectsViewModel>();
             services.AddTransient<ExecutablesViewModel>();
+            services.AddTransient<ExecutableViewModel>();
             services.AddTransient<SettingsViewModel>();
             services.AddSingleton<NavigationViewModel>();
             services.AddSingleton<MainViewModel>();
@@ -39,33 +41,27 @@ namespace ProjectRunner.WPF
             services.AddSingleton<ExecutablesNavigationService>();
             services.AddSingleton<SettingsNavigationService>();
 
-            services.AddTransient<ShowProductFormCommand>();
-            services.AddTransient<ShowExecutablesFormCommand>();
+            services.AddSingleton<ShowProductFormCommand>();
+            services.AddSingleton<ShowExecutablesFormCommand>();
 
             services.AddSingleton(s => new MainWindow() { DataContext = s.GetRequiredService<MainViewModel>() });
 
-            InitializeMappingConfiguration(services);
-
-            _servicesProvider = services.BuildServiceProvider();
+            _serviceProvider = services.BuildServiceProvider();
         }
 
         public async void AppStartup(object sender, StartupEventArgs e)
         {
-            SQLiteContext dbContext = _servicesProvider.GetRequiredService<SQLiteContext>();
+            SQLiteContext dbContext = _serviceProvider.GetRequiredService<SQLiteContext>();
             await dbContext.InitializeDatabase();
 
-            INavigationService navigationService = _servicesProvider.GetRequiredService<ProjectsNavigationService>();
+            ServiceProviderAccessor.Initialize(_serviceProvider);
+            AppMapper.Initialize();
+
+            INavigationService navigationService = _serviceProvider.GetRequiredService<ProjectsNavigationService>();
             navigationService.Navigate();
 
-            MainWindow mainWindow = _servicesProvider.GetRequiredService<MainWindow>();
+            MainWindow mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
-        }
-
-        private static void InitializeMappingConfiguration(IServiceCollection services)
-        {
-            AppMapper.Initialize();            
-            IMapper mapper = AppMapper.GetMapper();
-            services.AddSingleton(s => mapper);
         }
     }
 }

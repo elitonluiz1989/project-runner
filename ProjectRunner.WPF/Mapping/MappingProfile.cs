@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ProjectRunner.Common.Entities;
+using ProjectRunner.WPF.Tools;
 using ProjectRunner.WPF.ViewModels.Executables;
 
 namespace ProjectRunner.WPF.Mapping
@@ -9,9 +10,8 @@ namespace ProjectRunner.WPF.Mapping
         public MappingProfile()
         {
             CreateMap<Executable, ExecutableViewModel>()
-                .ForMember(d => d.Id, o => o.MapFrom(s => s.Id))
-                .ForMember(d => d.Name, o => o.MapFrom(s => s.Name))
-                .ForMember(d => d.FileName, o => o.MapFrom(s => s.FileName))
+                .ConstructUsing(d => ServiceProviderAccessor.GetRequiredService<ExecutableViewModel>())
+                .ForMember(d => d.ShowFormCommand, o => o.Ignore())
                 .ReverseMap();
         }
     }

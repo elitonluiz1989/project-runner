@@ -1,4 +1,5 @@
 ﻿using ProjectRunner.WPF.Stores;
+using ProjectRunner.WPF.ViewModels.Executables;
 using ProjectRunner.WPF.Views.Forms;
 
 namespace ProjectRunner.WPF.Commands
@@ -14,7 +15,7 @@ namespace ProjectRunner.WPF.Commands
 
         public override void Execute(object parameter)
         {
-            ExecutableForm executableForm = new(_store);
+            ExecutableForm executableForm = new(_store, (ExecutableViewModel)parameter);
             executableForm.ShowDialog();
         }
     }

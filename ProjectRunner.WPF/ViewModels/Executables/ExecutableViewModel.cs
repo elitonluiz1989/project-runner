@@ -1,4 +1,7 @@
-﻿namespace ProjectRunner.WPF.ViewModels.Executables
+﻿using ProjectRunner.WPF.Commands;
+using System.Windows.Input;
+
+namespace ProjectRunner.WPF.ViewModels.Executables
 {
     public class ExecutableViewModel : ViewModel
     {
@@ -32,6 +35,12 @@
                 _fileName = value;
                 OnPropertyChanged(nameof(FileName));
             }
+        }
+        public ICommand ShowFormCommand { get; set; }
+
+        public ExecutableViewModel(ShowExecutablesFormCommand showExecutablesFormCommand)
+        {
+            ShowFormCommand = showExecutablesFormCommand;
         }
 
         public static ExecutableViewModel CreateFrom<TType>(TType obj)

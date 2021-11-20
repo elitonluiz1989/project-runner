@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ProjectRunner.WPF.Views.Components"
              xmlns:viewmodels="clr-namespace:ProjectRunner.WPF.ViewModels"
+             xmlns:viewmodels_executables="clr-namespace:ProjectRunner.WPF.ViewModels.Executables"
              xmlns:entities="clr-namespace:ProjectRunner.Common.Entities;assembly=ProjectRunner.Common"
              d:DataContext="{d:DesignInstance Type=viewmodels:RecordsManagementViewModel}"
              mc:Ignorable="d" 
@@ -33,7 +34,7 @@
                 <local:Project DataContext="{Binding }" />
             </DataTemplate>
 
-            <DataTemplate DataType="{x:Type entities:Executable}">
+            <DataTemplate DataType="{x:Type viewmodels_executables:ExecutableViewModel}">
                 <local:Executable DataContext="{Binding }" />
             </DataTemplate>
         </ListView.Resources>
