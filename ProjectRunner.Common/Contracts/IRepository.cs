@@ -8,9 +8,9 @@ namespace ProjectRunner.Common.Contracts
     public interface IRepository<TEntity>
         where TEntity : BaseEntity
     {
-        void Insert(TEntity entity);
-        void Update(TEntity entity);
-        void Delete(int id);
+        int Insert(TEntity entity);
+        int Update(TEntity entity);
+        int Delete(int id);
         IList<TEntity> Select();
         IList<TEntity> Select(Func<IQueryable<TEntity>, IQueryable<TEntity>> filter);
         TEntity Select(int id);

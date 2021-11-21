@@ -18,48 +18,55 @@ namespace ProjectRunner.Infra.Data.Repository
             SQLiteContext = dbContext;
         }
 
-        public void Insert(TEntity obj)
+        public int Insert(TEntity obj)
         {
             SQLiteContext.Set<TEntity>().Add(obj);
-            SQLiteContext.SaveChanges();
+            return SQLiteContext.SaveChanges();
         }
 
-        public void Update(TEntity obj)
+        public int Update(TEntity obj)
         {
-            SQLiteContext.Entry(obj).State = EntityState.Detached;
-            SQLiteContext.SaveChanges();
+            TEntity localContenxtEntity = SQLiteContext.Set<TEntity>().Local.FirstOrDefault(entry => entry.Id.Equals(obj.Id));
+
+            if (localContenxtEntity != null)
+            {
+                SQLiteContext.Entry(localContenxtEntity).State = EntityState.Detached;
+            }
+
+            SQLiteContext.Entry(obj).State = EntityState.Modified;
+            return SQLiteContext.SaveChanges();
         }
 
-        public void Delete(int id)
+        public int Delete(int id)
         {
             SQLiteContext.Set<TEntity>().Remove(Select(id));
-            SQLiteContext.SaveChanges();
+            return SQLiteContext.SaveChanges();
         }
 
         public IList<TEntity> Select()
         {
-            var query = SelectQueryBuilder();
+            IQueryable<TEntity> query = SelectQueryBuilder();
 
             return query.ToList();
         }
 
         public IList<TEntity> Select(Func<IQueryable<TEntity>, IQueryable<TEntity>> filter)
         {
-            var query = SelectQueryBuilder(filter);
+            IQueryable<TEntity> query = SelectQueryBuilder(filter);
 
             return query.ToList();
         }
 
         public TEntity Select(int id)
         {
-            var query = SelectQueryBuilder();
+            IQueryable<TEntity> query = SelectQueryBuilder();
 
             return query.FirstOrDefault(e => e.Id == id);
         }
 
         public TEntity Select(int id, Func<IQueryable<TEntity>, IQueryable<TEntity>> filter)
         {
-            var query = SelectQueryBuilder(filter);
+            IQueryable<TEntity> query = SelectQueryBuilder(filter);
 
             return query.FirstOrDefault(e => e.Id == id);
         }
